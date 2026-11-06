@@ -1,53 +1,87 @@
 ---
-title: "Race and Ethnicity in Sarasota County"
+title: "Who Lives Where in Sarasota County"
+subtitle: "A neighborhood-by-neighborhood look at race and ethnicity, using US Census Bureau data"
+author: "Zheyre Tolliver, ISC2076, New College of Florida"
+date: today
+date-format: "MMMM D, YYYY"
 execute:
   echo: false
+  warning: false
 ---
 
 ```{r}
 #| message: false
 library(tidyverse)
 library(sf)
+
 sarasota <- read_rds("sarasota.rds")
+
+county <- sarasota |>
+  st_drop_geometry() |>
+  summarize(total = sum(estimate), pop = sum(summary_est), .by = variable) |>
+  mutate(share = 100 * total / pop)
+
+pct <- function(g) round(county$share[county$variable == g])
+
+map_group <- function(g, color) {
+  sarasota |>
+    filter(variable == g) |>
+    ggplot(aes(fill = percent)) +
+    geom_sf(color = "white", linewidth = 0.08) +
+    scale_fill_gradient(low = "#f6f1fb", high = color,
+                        labels = scales::label_percent(scale = 1)) +
+    labs(fill = "Share of\nresidents",
+         caption = "Source: US Census Bureau, American Community Survey 2019 to 2023") +
+    theme_void(base_size = 12) +
+    theme(legend.title = element_text(color = "#4a3a5c"),
+          legend.text = element_text(color = "#6b5a7e"),
+          plot.caption = element_text(color = "#8a7a9a", size = 9))
+}
 ```
 
-Each map shows the share of residents in each census tract who identify with that group.
+::: {.keyfacts}
+**At a glance:** Across Sarasota County, about **`r pct("White")`%** of residents identify as White (non-Hispanic), **`r pct("Hispanic")`%** as Hispanic, **`r pct("Black")`%** as Black, and **`r pct("Asian")`%** as Asian.
+:::
+
+Sarasota County looks very different depending on which neighborhood you stand in. Using the Census Bureau's most recent five-year survey, these maps break the county into census tracts, small areas of a few thousand residents each, and show where each group makes up a larger or smaller share of the population.
+
+## White residents
 
 ```{r}
-#| fig-width: 9
-#| fig-height: 9
-sarasota |>
-  ggplot(aes(fill = percent)) +
-  geom_sf(color = "white", linewidth = 0.1) +
-  facet_wrap(~ variable) +
-  scale_fill_gradient(
-    low = "#f6f0fb",
-    high = "#7b4fa6",
-    labels = scales::label_percent(scale = 1)
-  ) +
-  labs(
-    title = "Who Lives Where in Sarasota County",
-    subtitle = "Share of residents in each neighborhood, by race and ethnicity",
-    fill = "Share of residents",
-    caption = "Source: American Community Survey 2019 to 2023, US Census Bureau"
-  ) +
-  theme_void(base_size = 14) +
-  theme(
-    plot.title = element_text(face = "bold", color = "#4a2c6b", size = 20),
-    plot.subtitle = element_text(color = "#7a6890", margin = margin(b = 15)),
-    plot.caption = element_text(color = "#9a8aaa", size = 10),
-    strip.text = element_text(face = "bold", color = "#5b3a80", size = 14,
-                              margin = margin(b = 5)),
-    legend.position = "bottom",
-    legend.title = element_text(color = "#5b3a80"),
-    legend.text = element_text(color = "#7a6890"),
-    legend.key.width = unit(2.5, "cm"),
-    legend.key.height = unit(0.4, "cm"),
-    plot.background = element_rect(fill = "white", color = NA),
-    plot.margin = margin(20, 20, 20, 20)
-  ) +
-  guides(fill = guide_colorbar(title.position = "top", title.hjust = 0.5))
+#| fig-height: 6
+map_group("White", "#4a2c6b")
 ```
 
+White residents are the majority in most of the county, which is why this map is dark almost everywhere. Lighter tracts mark the neighborhoods where other groups make up a bigger share.
 
+## Hispanic residents
+
+```{r}
+#| fig-height: 6
+map_group("Hispanic", "#7b4fa6")
+```
+
+Hispanic residents make up about `r pct("Hispanic")`% of the county, but they are not spread evenly. Darker tracts show the neighborhoods where Hispanic residents are concentrated.
+
+## Black residents
+
+```{r}
+#| fig-height: 6
+map_group("Black", "#5b3a80")
+```
+
+Black residents are about `r pct("Black")`% of the county overall, yet a few tracts stand out sharply. These include parts of the city of Sarasota, home to the historic Newtown community.
+
+## Asian residents
+
+```{r}
+#| fig-height: 6
+map_group("Asian", "#9b6fc9")
+```
+
+Asian residents are the smallest of the four groups, at about `r pct("Asian")`% of the county, with modest concentrations in a handful of tracts.
+
+::: {.methods}
+**About the data:** Figures come from the US Census Bureau's American Community Survey (2019 to 2023 five-year estimates), table B03002, downloaded with the tidycensus package in R. "White," "Black," and "Asian" refer to non-Hispanic residents; Hispanic residents can be of any race. Survey estimates have margins of error, which are larger for small tracts.
+:::
 
