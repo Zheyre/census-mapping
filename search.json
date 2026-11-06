@@ -2,9 +2,37 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Race and Ethnicity in Sarasota County",
+    "title": "Who Lives Where in Sarasota County",
     "section": "",
-    "text": "Each map shows the share of residents in each census tract who identify with that group."
+    "text": "At a glance: Across Sarasota County, about 81% of residents identify as White (non-Hispanic), 10% as Hispanic, 4% as Black, and 2% as Asian.\nSarasota County looks very different depending on which neighborhood you stand in. Using the Census Bureau’s most recent five-year survey, these maps break the county into census tracts, small areas of a few thousand residents each, and show where each group makes up a larger or smaller share of the population."
+  },
+  {
+    "objectID": "index.html#white-residents",
+    "href": "index.html#white-residents",
+    "title": "Who Lives Where in Sarasota County",
+    "section": "White residents",
+    "text": "White residents\n\n\n\n\n\n\n\n\n\nWhite residents are the majority in most of the county, which is why this map is dark almost everywhere. Lighter tracts mark the neighborhoods where other groups make up a bigger share."
+  },
+  {
+    "objectID": "index.html#hispanic-residents",
+    "href": "index.html#hispanic-residents",
+    "title": "Who Lives Where in Sarasota County",
+    "section": "Hispanic residents",
+    "text": "Hispanic residents\n\n\n\n\n\n\n\n\n\nHispanic residents make up about 10% of the county, but they are not spread evenly. Darker tracts show the neighborhoods where Hispanic residents are concentrated."
+  },
+  {
+    "objectID": "index.html#black-residents",
+    "href": "index.html#black-residents",
+    "title": "Who Lives Where in Sarasota County",
+    "section": "Black residents",
+    "text": "Black residents\n\n\n\n\n\n\n\n\n\nBlack residents are about 4% of the county overall, yet a few tracts stand out sharply. These include parts of the city of Sarasota, home to the historic Newtown community."
+  },
+  {
+    "objectID": "index.html#asian-residents",
+    "href": "index.html#asian-residents",
+    "title": "Who Lives Where in Sarasota County",
+    "section": "Asian residents",
+    "text": "Asian residents\n\n\n\n\n\n\n\n\n\nAsian residents are the smallest of the four groups, at about 2% of the county, with modest concentrations in a handful of tracts.\n\nAbout the data: Figures come from the US Census Bureau’s American Community Survey (2019 to 2023 five-year estimates), table B03002, downloaded with the tidycensus package in R. “White,” “Black,” and “Asian” refer to non-Hispanic residents; Hispanic residents can be of any race. Survey estimates have margins of error, which are larger for small tracts."
   },
   {
     "objectID": "about.html",
